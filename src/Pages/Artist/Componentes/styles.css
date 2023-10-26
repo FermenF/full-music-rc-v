@@ -1,0 +1,20 @@
+@media (min-width: 768px) {
+    .image-artist {
+        height: 32rem;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(4, 5, 34); /* Color del fondo del scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #90A4AE; /* Color del pulgar del scrollbar */
+  border-radius: 6px;
+  border: 3px solid #CFD8DC; /* Color del fondo del scrollbar */
+}
