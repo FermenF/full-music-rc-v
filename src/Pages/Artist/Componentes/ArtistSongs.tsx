@@ -1,21 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { playSong } from '../../../actions/songActions.js';
 import { getSongFromYoutube, truncateTitle, covertDuration } from '../../../Utils/utils.js';
 import { SongResponse } from '../../../Interfaces/song.interface.js';
+import { PlaySong } from '../../../Interfaces/playSong.interface.js';
 
 interface ArstistSongsProps {
     tops: SongResponse;
-    artist: string
-};
+    artist: string;
+    playSong: (song: PlaySong) => void;
+}
 
-const ArtistSongs: React.FC<ArstistSongsProps> = ({ tops, artist }) => {
+const ArtistSongs: React.FC<ArstistSongsProps> = ({ tops, artist, playSong }) => {
 
     window.localStorage.setItem('songs', JSON.stringify(tops.data));
 
-    async function playSongArtist(e, title:string, artist:string, duration:any, image:string, id:number) {
-        try {            
+    async function playSongArtist(e, title: string, artist: string, duration: any, image: string, id: number) {
+        try {
             e.preventDefault();
             const data = await getSongFromYoutube(title, artist, duration, image, id);
-            console.log(data);
+            playSong(data);
         } catch (error) {
             console.log(error);
         }
@@ -55,4 +59,8 @@ const ArtistSongs: React.FC<ArstistSongsProps> = ({ tops, artist }) => {
     );
 };
 
-export default ArtistSongs;
+const mapStateToProps = (state) => ({
+    // Mapea el estado de Redux que necesites aquí
+});
+
+export default connect(mapStateToProps, { playSong })(ArtistSongs);

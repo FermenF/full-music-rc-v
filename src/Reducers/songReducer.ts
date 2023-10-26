@@ -1,4 +1,5 @@
 import { PlaySong } from "../Interfaces/playSong.interface";
+import { Song } from "../Interfaces/song.interface";
 
 export interface RootSongState {
     musicReducer: SongState;
@@ -7,7 +8,7 @@ export interface RootSongState {
 export interface SongState {
     currentSong: PlaySong | null; 
     isPlaying: boolean;
-    playlist: PlaySong[] | null;
+    playlist: Song[];
     isShuffle: boolean;
     isRepeat: boolean;
 }
@@ -21,7 +22,12 @@ interface PauseSongAction {
     type: 'PAUSE_SONG';
 }
 
-type SongAction = PlaySongAction | PauseSongAction;
+interface SetPlaylistAction {
+    type: 'SET_PLAYLIST';
+    playlist: Song[];
+}
+
+type SongAction = PlaySongAction | PauseSongAction | SetPlaylistAction;
 
 const initialState: SongState = {
     currentSong: null,
@@ -43,6 +49,11 @@ const songReducer = (state: SongState = initialState, action: SongAction): SongS
             return {
                 ...state,
                 isPlaying: false,
+            };
+        case 'SET_PLAYLIST':
+            return {
+                ...state,
+                playlist: action.playlist,
             };
         default:
             return state;
