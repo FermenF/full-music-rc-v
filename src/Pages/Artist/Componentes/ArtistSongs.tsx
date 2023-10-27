@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { playSong } from '../../../actions/songActions.js';
-import { getSongFromYoutube, truncateTitle, covertDuration } from '../../../Utils/utils.js';
+import { getSongFromYoutube, truncateTitle, covertDuration, updateOrSaveSongs } from '../../../Utils/utils.js';
 import { SongResponse } from '../../../Interfaces/song.interface.js';
 import { PlaySong } from '../../../Interfaces/playSong.interface.js';
 
@@ -13,17 +13,15 @@ interface ArstistSongsProps {
 
 const ArtistSongs: React.FC<ArstistSongsProps> = ({ tops, artist, playSong }) => {
 
-    window.localStorage.setItem('songs', JSON.stringify(tops.data));
-
+    updateOrSaveSongs(tops.data);
     async function playSongArtist(e, title: string, artist: string, duration: any, image: string, id: number) {
         try {
             e.preventDefault();
             const data = await getSongFromYoutube(title, artist, duration, image, id);
             playSong(data);
         } catch (error) {
-            console.log(error);
-        }
-    }
+        };
+    };
 
     return (
         <div className="w-full mb-5">

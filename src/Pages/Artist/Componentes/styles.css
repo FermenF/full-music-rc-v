@@ -1,6 +1,6 @@
 @media (min-width: 768px) {
     .image-artist {
-        height: 32rem;
+        height: 32rem !important;
     }
 }
 

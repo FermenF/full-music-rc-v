@@ -1,0 +1,10 @@
+.container-input{
+    background: linear-gradient(100deg, #402, #006) !important;
+}
+
+.inputStyle{
+    border: none;
+    border-radius: none;
+    border-bottom: 4px solid white;
+    color: white;
+}

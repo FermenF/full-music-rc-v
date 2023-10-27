@@ -52,7 +52,7 @@ const PlayBanner: React.FC<PlayBannerProps> = ( { song } ) => {
                     </div>
                 </div>
                 <div className="col-span-5 lg:col-span-3">
-                    <AudioController url={ url }/>
+                    <AudioController id={drezzerId} url={ url }/>
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ export interface Album {
     md5_image:       string;
     genre_id:        number;
     fans:            number;
-    release_date:    Date;
+    release_date:    string;
     record_type:     Type;
     tracklist:       string;
     explicit_lyrics: boolean;

@@ -1,9 +1,14 @@
 import React from "react"
 import { truncateTitle } from "../../../Utils/utils";
+import { Album } from "../../../Interfaces/album.interface";
 
-const AlbumCard = ({ album }) => {
+interface AlbumCardProps {
+    album:Album
+}
 
-    const capitalizeFirstLetter = (str) => {
+const AlbumCard: React.FC<AlbumCardProps> = ({ album }) => {
+
+    const capitalizeFirstLetter = (str:string) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 

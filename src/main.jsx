@@ -5,11 +5,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import router from './routes/routes';
 import reducers from './Reducers/reducer';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
 import './index.css';
 
 const store = configureStore({
   reducer: reducers,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

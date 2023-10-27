@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { RootSearchState, activateSearch, deactivateSearch } from '../../../Reducers/searchReducer';
 
 const NavBarAndSearch = () => {
 
     const [showDropDrown, setShowDropDown] = useState('hidden');
     const [showDropDrownBars, setshowDropDrownBars] = useState('hidden');
+    const search = useSelector((state: RootSearchState) => state.searchReducer);
+    const dispatch = useDispatch();
 
     const toggleDropdown = () => {
         setShowDropDown(prevState => (prevState === 'hidden' ? 'block' : 'hidden'));
@@ -12,6 +16,14 @@ const NavBarAndSearch = () => {
 
     const toggleDropdownBars = () => {
         setshowDropDrownBars(prevState => (prevState === 'hidden' ? 'block' : 'hidden'));
+    }
+
+    const handleSearch = () => {
+        if (search) {
+            dispatch(deactivateSearch());
+        } else {
+            dispatch(activateSearch());
+        }
     }
 
     return (
@@ -24,6 +36,7 @@ const NavBarAndSearch = () => {
                 <div className="md:hidden flex">
                     <div>
                         <button id="dropdownDefault" type="button" onClick={() => toggleDropdown()} className="inline-flex items-center p-1 px-2 text-sm font-normal text-center text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-100">
+                            Fernando Fernandez
                             <svg className="w-2.0 h-2 ml-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                             </svg>
@@ -58,7 +71,7 @@ const NavBarAndSearch = () => {
                     <strong className="ml-5 text-sm">Home</strong>
                 </Link>
             </div>
-            <div className={`mt-4 ${showDropDrownBars} md:block`}>
+            <div className={`mt-4 ${showDropDrownBars} md:block`} onClick={handleSearch}>
                 <a className="flex content-center items-center cursor-pointer">
                     <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />

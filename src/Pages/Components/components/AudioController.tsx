@@ -1,46 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState, useRef } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { prevSong, nextSong } from "../../../actions/songActions";
+import { RootSongState } from "../../../Reducers/songReducer";
 
 interface AudioControllerProps {
-    url: string
-};
+    id: number;
+    url: string;
+}
 
-const AudioController: React.FC<AudioControllerProps> = ({ url }) => {
-
+const AudioController: React.FC<AudioControllerProps> = ({ id, url }) => {
+    const [isPlaying, setIsPlaying] = useState(false);
     const dispatch = useDispatch();
-    const [audio] = useState(new Audio(url));
-    const [isPlaying, setIsPlaying] = useState(true);
-    const [duration, setDuration] = useState(0);
-    const [currentTime, setCurrentTime] = useState(0);
+    const currentSong = useSelector((state: RootSongState) => state.musicReducer.currentSong);
+
+    const audioRef = useRef(new Audio(url));
+
+    useEffect(() => {
+        if (currentSong) {
+            audioRef.current.src = currentSong.url;
+            if (isPlaying) {
+                audioRef.current.play();
+            }
+        }
+    }, [currentSong]);
 
     const handlePlayPause = () => {
         if (isPlaying) {
-            audio.pause();
+            audioRef.current.pause();
         } else {
-            audio.play();
+            audioRef.current.play();
         }
         setIsPlaying(!isPlaying);
     };
 
-    useEffect(() => {
-        audio.src = url;
-        if (isPlaying) {
-            audio.play();
-        }
-        setIsPlaying(true);
-        const handleTimeUpdate = () => {
-            setCurrentTime(audio.currentTime);
-            if (!isNaN(audio.duration)) {
-                setDuration(audio.duration);
-            }
-        };
+    const handleNextSong = () => {
+        audioRef.current.pause();
+        // @ts-ignore
+        dispatch(nextSong(id));
+    };
 
-        audio.addEventListener("timeupdate", handleTimeUpdate);
-
-        return () => {
-            audio.removeEventListener("timeupdate", handleTimeUpdate);
-        };
-    }, [url]);
+    const handlePrevSong = () => {
+        audioRef.current.pause();
+        // @ts-ignore
+        dispatch(prevSong(id));
+    };
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
@@ -56,7 +59,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ url }) => {
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z" />
                     </svg>
                 </button>
-                <button className="mx-1 rounded-full p-2 bg-black hover:bg-slate-500">
+                <button className="mx-1 rounded-full p-2 bg-black hover:bg-slate-500" onClick={ handlePrevSong }>
                     <svg className="w-4 h-4 text-white pr-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
                     </svg>
@@ -75,7 +78,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ url }) => {
                         </svg>
                     )}
                 </button>
-                <button type="button" className="mx-1 rounded-full p-2 bg-black hover:bg-slate-500">
+                <button type="button" className="mx-1 rounded-full p-2 bg-black hover-bg-slate-500" onClick={handleNextSong}>
                     <svg className="w-4 h-4 text-white pl-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                     </svg>
@@ -87,20 +90,22 @@ const AudioController: React.FC<AudioControllerProps> = ({ url }) => {
                 </button>
             </div>
             <div className="flex items-center">
-                <small className="mx-1 text-gray-600 font-extralight text-sm">{formatTime(currentTime)}</small>
+                <small className="mx-1 text-gray-600 font-extralight text-sm"></small>
                 <input
                     type="range"
                     className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-900"
                     min={0}
-                    max={!isNaN(duration) ? duration : 0}
-                    value={currentTime}
                     step={0.1}
-                    onChange={(e) => (audio.currentTime = parseFloat(e.target.value))}
+                    onChange={(e) => (audioRef.current.currentTime = parseFloat(e.target.value))}
                 />
-                <small className="mx-1 text-gray-600 font-extralight text-sm">{formatTime(!isNaN(duration) ? duration : 0)}</small>
+                <small className="mx-1 text-gray-600 font-extralight text-sm"></small>
             </div>
         </div>
     );
 };
 
-export default AudioController;
+const mapStateToProps = (state) => ({
+    currentSongIndex: state.musicReducer.currentSongIndex,
+});
+
+export default connect(mapStateToProps, { nextSong })(AudioController);

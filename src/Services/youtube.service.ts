@@ -2,7 +2,7 @@ import axios from 'axios';
 import { SongYoutube } from '../Interfaces/song.interface';
 
 // const baseUrl = 'https://full-music-api.fermenf.com/api/v1';
-const baseUrl = 'http://localhost:3333/api/v1';
+const baseUrl = 'http://localhost:3335/api/v1';
 
 export async function getSong(songId: string): Promise<Response> {
     try{

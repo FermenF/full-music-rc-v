@@ -1,6 +1,5 @@
 import React from "react";
 import Flag from 'react-world-flags'
-import './styles.css'
 
 interface ArtistImageProps {
     country: string | undefined,
@@ -9,6 +8,7 @@ interface ArtistImageProps {
     name: string
 };
 
+import './styles.css'
 const ArtistImage: React.FC<ArtistImageProps> = ({ country, area, image, name }) => {
     return (
         <div className="w-full rounded-t-2xl image-artist h-52 bg-blue-500 relative" style={{

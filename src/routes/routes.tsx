@@ -5,10 +5,12 @@ import Index from '../Pages/Home/Index'
 import Layout from "../Pages/Components/Layout";
 import Genre from "../Pages/Genre/Genre";
 import IndexArtist from "../Pages/Artist/Index";
+import Search from '../Pages/Search/Search';
+import Show from "../Pages/Artist/Show";
 
 import { getGenres, getArtistsByGenre } from '../Services/genre.service';
 import { getArtist } from "../Services/artist.service";
-import Show from "../Pages/Artist/Show";
+import { searchByQuery } from "../Services/search.service";
 
 const router = createBrowserRouter([
     {
@@ -27,12 +29,17 @@ const router = createBrowserRouter([
             {
                 path: "genre/:id/:name/artists",
                 element: <IndexArtist />,
-                loader: ({ params }) => getArtistsByGenre( params )
+                loader: ({ params }) => getArtistsByGenre(params)
             },
             {
                 path: "artists/:id/:name",
                 element: <Show />,
-                loader: ({ params }) => getArtist( params )
+                loader: ({ params }) => getArtist(params)
+            },
+            {
+            path: "search/:query",
+            element: <Search />,
+            loader: ({ params }) => searchByQuery(params)
             }
         ]
     }

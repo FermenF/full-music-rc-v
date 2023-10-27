@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import { PlaySong } from '../Interfaces/playSong.interface';
+import { SongResponse, Song } from '../Interfaces/song.interface';
 import { getListSongs, getSong } from '../Services/youtube.service';
-import { SongResponse } from '../Interfaces/song.interface';
+import { playSong } from '../actions/songActions';
 
 export async function getSongFromYoutube(title: string, artist: string, duration: any, image: string, id: number): Promise<PlaySong>
 {
@@ -20,28 +20,13 @@ export async function getSongFromYoutube(title: string, artist: string, duration
     };
 };
 
-
-export function useLoadMoreSongs(tops) {
-    const [songs, setSongs] = useState(tops.data); // Inicializa con tops.data en lugar de tops
-    const [nextPageUrl, setNextPageUrl] = useState(tops.next);
-
-    const loadMoreSongs = () => {
-        if (nextPageUrl) {
-            fetch(nextPageUrl)
-                .then(response => response.json())
-                .then(newSongsData => {
-                    setSongs(prevSongs => [...prevSongs, ...newSongsData.data]);
-                    setNextPageUrl(newSongsData.next);
-                });
-        }
-    };
-
-    console.log(songs);
-    
-
-    return { songs, loadMoreSongs };
+export async function playSongArtist(title: string, artist: string, duration: any, image: string, id: number){
+    try {
+        const data = await getSongFromYoutube(title, artist, duration, image, id);
+        playSong(data);
+    } catch (error) {
+    }
 }
-
 
 export function truncateTitle(text:string, maxLength:number): string 
 {
@@ -56,4 +41,29 @@ export function covertDuration(duration:number): string
     const min = Math.floor(duration / 60);
     const seg = duration % 60;
     return `${min}:${seg}`;
+};
+
+export function updateOrSaveSongs(songs:any): void
+{
+    window.localStorage.setItem('songs', JSON.stringify(songs));
+}
+
+export const changeSong = async (playList:Song[], id:number, direction:string) => {
+    const currentSong = playList.find((song) => song.id === id);
+    if (currentSong) {
+        const currentIndex = playList.indexOf(currentSong);
+        let nextIndex;
+        
+        if (direction === 'NEXT') {
+            nextIndex = (currentIndex + 1) % playList.length;
+        } else if (direction === 'PREV') {
+            nextIndex = (currentIndex - 1 + playList.length) % playList.length;
+        }
+
+        const nextSong = playList[nextIndex];
+        const song = await getSongFromYoutube(nextSong.title, nextSong.artist.name, covertDuration(nextSong.duration), nextSong.album.cover_small, nextSong.id);
+
+        return { type: direction + '_SONG', song };
+    }
+    return null;
 };

@@ -1,21 +1,24 @@
 import { PlaySong } from "../Interfaces/playSong.interface";
-import { Song } from "../Interfaces/song.interface";
+
+const dataPlayList = window.localStorage.getItem('songs');
+const playList = dataPlayList ? JSON.parse(dataPlayList) : []
 
 export interface RootSongState {
     musicReducer: SongState;
 }
 
 export interface SongState {
-    currentSong: PlaySong | null; 
+    currentSong: PlaySong | null;
+    currentSongIndex: number | null;
     isPlaying: boolean;
-    playlist: Song[];
+    playlist: PlaySong[];
     isShuffle: boolean;
     isRepeat: boolean;
 }
 
 interface PlaySongAction {
     type: 'PLAY_SONG';
-    song: PlaySong; 
+    song: PlaySong;
 }
 
 interface PauseSongAction {
@@ -24,15 +27,26 @@ interface PauseSongAction {
 
 interface SetPlaylistAction {
     type: 'SET_PLAYLIST';
-    playlist: Song[];
+    playlist: PlaySong[];
 }
 
-type SongAction = PlaySongAction | PauseSongAction | SetPlaylistAction;
+interface PlayPrevSoncAction {
+    type: 'PREV_SONG';
+    song: PlaySong
+}
+
+interface PlayNextSongAction {
+    type: 'NEXT_SONG';
+    song: PlaySong
+}
+
+type SongAction = PlaySongAction | PauseSongAction | SetPlaylistAction | PlayPrevSoncAction | PlayNextSongAction;
 
 const initialState: SongState = {
     currentSong: null,
     isPlaying: false,
-    playlist: [],
+    currentSongIndex: null,
+    playlist: playList,
     isShuffle: false,
     isRepeat: false,
 };
@@ -54,6 +68,28 @@ const songReducer = (state: SongState = initialState, action: SongAction): SongS
             return {
                 ...state,
                 playlist: action.playlist,
+            };
+        case 'PREV_SONG':
+            const currentSongIndex = state.currentSongIndex ?? 0;
+            let newIndexPrev = currentSongIndex - 1;
+
+            if (newIndexPrev < 0) {
+                newIndexPrev = state.playlist.length - 1;
+            }
+            return {
+                ...state,
+                currentSongIndex: newIndexPrev,
+                currentSong: action.song,
+                isPlaying: true,
+            };
+        case 'NEXT_SONG':
+            const nextIndex = (state.currentSongIndex ?? -1) + 1;
+            const newIndexNext = nextIndex % state.playlist.length;
+            return {
+                ...state,
+                currentSongIndex: newIndexNext,
+                currentSong: action.song,
+                isPlaying: true,
             };
         default:
             return state;
