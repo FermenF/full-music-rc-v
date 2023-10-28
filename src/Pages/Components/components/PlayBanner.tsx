@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { truncateTitle } from "../../../Utils/utils";
 import AudioController from "./AudioController";
 import { Info, PlaySong } from "../../../Interfaces/playSong.interface";
+import { Link } from "react-router-dom";
 
 interface PlayBannerProps {
     song: PlaySong
@@ -46,8 +47,11 @@ const PlayBanner: React.FC<PlayBannerProps> = ( { song } ) => {
                         <div className="font-bold text-sm">
                             <h1>{truncateTitle(title, 40)}</h1>
                         </div>
-                        <div className="text-gray-900 font-extralight text-xs">
-                            <h5>{ name }</h5>
+                        <div className="text-blue-800 font-extralight text-xs">
+                            <Link to={`/dashboard/artists/${ song.info.artistId }/${ name.replace('/', '|') }`}
+                                className="hover:underline">
+                                <h5>{ name }</h5>
+                            </Link>
                         </div>
                     </div>
                 </div>

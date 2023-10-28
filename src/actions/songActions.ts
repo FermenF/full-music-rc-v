@@ -1,21 +1,18 @@
-import { Dispatch } from "redux";
+import { useSelector } from "react-redux";
 import { PlaySong } from "../Interfaces/playSong.interface";
 import { Song } from '../Interfaces/song.interface';
-import { changeSong } from "../Utils/utils";
-
-const songs = window.localStorage.getItem('songs');
-const playList: Song[] = JSON.parse(songs || '[]');
+import { changeSong} from "../Utils/utils";
 
 export const playSong = (song: PlaySong) => ({ type: 'PLAY_SONG', song });
 
 export const pauseSong = () => ({ type: 'PAUSE_SONG' });
 
 export const setPlaylist = (playlist: Song[]) => {
-    return { type: 'SET_PLAYLIST', payload: playlist };
+    return { type: 'SET_PLAYLIST', playlist: playlist };
 };
 
-export const prevSong = (id: number) => {
-    return async (dispatch:Dispatch) => {
+export const prevSong = (id: number, playList:Song[]) => {
+    return async (dispatch) => {
         const action = await changeSong(playList, id, 'PREV');
         if (action) {
             dispatch(action);
@@ -23,8 +20,8 @@ export const prevSong = (id: number) => {
     };
 };
 
-export const nextSong = (id: number) => {
-    return async (dispatch:Dispatch) => {
+export const nextSong = (id: number, playList:Song[]) => {
+    return async (dispatch) => {
         const action = await changeSong(playList, id, 'NEXT');
         if (action) {
             dispatch(action);

@@ -1,8 +1,12 @@
 import { PlaySong } from "../Interfaces/playSong.interface";
+import { Song } from "../Interfaces/song.interface";
 
 const dataPlayList = window.localStorage.getItem('songs');
-const playList = dataPlayList ? JSON.parse(dataPlayList) : []
+let playList;
 
+if(dataPlayList){
+    playList = JSON.parse(dataPlayList);
+}
 export interface RootSongState {
     musicReducer: SongState;
 }
@@ -11,7 +15,7 @@ export interface SongState {
     currentSong: PlaySong | null;
     currentSongIndex: number | null;
     isPlaying: boolean;
-    playlist: PlaySong[];
+    playlist: Song[];
     isShuffle: boolean;
     isRepeat: boolean;
 }
@@ -27,20 +31,20 @@ interface PauseSongAction {
 
 interface SetPlaylistAction {
     type: 'SET_PLAYLIST';
-    playlist: PlaySong[];
+    playlist: Song[];
 }
 
-interface PlayPrevSoncAction {
+interface PlayPrevSongAction {
     type: 'PREV_SONG';
-    song: PlaySong
+    song: PlaySong;
 }
 
 interface PlayNextSongAction {
     type: 'NEXT_SONG';
-    song: PlaySong
+    song: PlaySong;
 }
 
-type SongAction = PlaySongAction | PauseSongAction | SetPlaylistAction | PlayPrevSoncAction | PlayNextSongAction;
+type SongAction = PlaySongAction | PauseSongAction | SetPlaylistAction | PlayPrevSongAction | PlayNextSongAction;
 
 const initialState: SongState = {
     currentSong: null,
@@ -74,7 +78,7 @@ const songReducer = (state: SongState = initialState, action: SongAction): SongS
             let newIndexPrev = currentSongIndex - 1;
 
             if (newIndexPrev < 0) {
-                newIndexPrev = state.playlist.length - 1;
+                newIndexPrev = (state.playlist?.length ?? 1) - 1;
             }
             return {
                 ...state,
@@ -84,7 +88,7 @@ const songReducer = (state: SongState = initialState, action: SongAction): SongS
             };
         case 'NEXT_SONG':
             const nextIndex = (state.currentSongIndex ?? -1) + 1;
-            const newIndexNext = nextIndex % state.playlist.length;
+            const newIndexNext = (state.playlist?.length ?? 1) === 0 ? 0 : nextIndex % (state.playlist?.length ?? 1);
             return {
                 ...state,
                 currentSongIndex: newIndexNext,

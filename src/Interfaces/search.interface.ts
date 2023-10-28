@@ -1,8 +1,9 @@
 import { Album } from "./album.interface";
 import { Artist } from "./artist.interface";
+import { Song } from './song.interface';
 
 export interface SearchResponse {
-    data:  Search[];
+    data:  Song[];
     total: number;
     next:  string;
 }

@@ -1,27 +1,31 @@
 import React from "react";
-import { covertDuration, getSongFromYoutube, truncateTitle, updateOrSaveSongs } from "../../../Utils/utils";
+import { covertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
 import { SearchResponse } from "../../../Interfaces/search.interface";
-import { playSong } from "../../../actions/songActions";
+import { playSong, setPlaylist } from "../../../actions/songActions";
 import { PlaySong } from "../../../Interfaces/playSong.interface";
 import { connect, useSelector } from "react-redux";
 import { RootSongState } from "../../../Reducers/songReducer";
+import { Song } from '../../../Interfaces/song.interface';
+import { Search } from "react-router-dom";
 
 interface MoreResultProps {
     data: SearchResponse;
     playSong: (song: PlaySong) => void;
+    setPlaylist: (songs: Song[] | Search) => void;
 }
 
-const MoreResults: React.FC<MoreResultProps> = ({ data, playSong }) => {
+const MoreResults: React.FC<MoreResultProps> = ({ data, playSong, setPlaylist }) => {
 
     const song = useSelector((state: RootSongState) => state.musicReducer.currentSong);
     const songs = data.data;
-    updateOrSaveSongs(songs.slice(0, 5));
-
-    async function playSongArtist(e, title: string, artist: string, duration: any, image: string, id: number) {
-        
+ 
+    async function playSongArtist(e, title: string, artist: string, duration: any, image: string, id: number, artistId:number) {
         try {
             e.preventDefault();
-            const data = await getSongFromYoutube(title, artist, duration, image, id);
+            const playList = songs.slice(0, 5);
+            updatePlayList(playList);
+            setPlaylist(playList);
+            const data = await getSongFromYoutube(title, artist, duration, image, id, artistId);
             playSong(data);
         } catch (error) {
         }
@@ -29,7 +33,7 @@ const MoreResults: React.FC<MoreResultProps> = ({ data, playSong }) => {
 
     return (
         <div className="col-span-7 lg:col-span-5 lg:col-start-3 text-white">
-            <h1 className="text-2xl text-center lg:text-left  lg:text-3xl font-bold mb-5">Songs</h1>
+            <h1 className="text-2xl text-left lg:text-left  lg:text-3xl font-bold mb-5">Songs</h1>
             <div className="mt-3">
                 {songs ? (
                     songs.slice(1, 5).map((songData, index) => (
@@ -40,7 +44,8 @@ const MoreResults: React.FC<MoreResultProps> = ({ data, playSong }) => {
                                 songData.artist.name,
                                 covertDuration(songData.duration),
                                 songData.album.cover_small,
-                                songData.id
+                                songData.id,
+                                songData.artist.id
                             )}
                             className={`hover:bg-gray-500 p-1 flex items-center justify-between cursor-pointer rounded-md my-3 ${song && song.info && song.info.drezzerId === songData.id && "bg-gray-500"}`}>
                             <div className="md:p-1 flex items-center">
@@ -74,4 +79,5 @@ const mapStateToProps = (state) => ({
     // Mapea el estado de Redux que necesites aquí
 });
 
-export default connect(mapStateToProps, { playSong })(MoreResults);
+// @ts-ignore
+export default connect(mapStateToProps, { playSong, setPlaylist })(MoreResults);

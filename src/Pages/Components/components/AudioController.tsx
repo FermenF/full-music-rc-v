@@ -1,17 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { prevSong, nextSong } from "../../../actions/songActions";
+import { connect, useSelector } from "react-redux";
+import { prevSong, nextSong } from '../../../actions/songActions';
 import { RootSongState } from "../../../Reducers/songReducer";
+import { Song } from "../../../Interfaces/song.interface";
 
 interface AudioControllerProps {
     id: number;
     url: string;
+    prevSong: (id:number, song:Song[] | null) => void;
+    nextSong: (id:number, song:Song[] | null) => void;
 }
 
-const AudioController: React.FC<AudioControllerProps> = ({ id, url }) => {
+const AudioController: React.FC<AudioControllerProps> = ({ id, url, prevSong, nextSong }) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const dispatch = useDispatch();
     const currentSong = useSelector((state: RootSongState) => state.musicReducer.currentSong);
+    const playList = useSelector((state: RootSongState) => state.musicReducer.playlist);
 
     const audioRef = useRef(new Audio(url));
 
@@ -35,14 +38,12 @@ const AudioController: React.FC<AudioControllerProps> = ({ id, url }) => {
 
     const handleNextSong = () => {
         audioRef.current.pause();
-        // @ts-ignore
-        dispatch(nextSong(id));
+        nextSong(id, playList);
     };
 
     const handlePrevSong = () => {
         audioRef.current.pause();
-        // @ts-ignore
-        dispatch(prevSong(id));
+        prevSong(id, playList);
     };
 
     const formatTime = (time) => {
@@ -105,7 +106,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ id, url }) => {
 };
 
 const mapStateToProps = (state) => ({
-    currentSongIndex: state.musicReducer.currentSongIndex,
 });
 
-export default connect(mapStateToProps, { nextSong })(AudioController);
+// @ts-ignore
+export default connect(mapStateToProps, { prevSong, nextSong })(AudioController);

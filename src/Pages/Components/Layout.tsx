@@ -74,7 +74,7 @@ const Layout = () => {
                 )
             }
             {
-                currentSong && <PlayBanner song={currentSong} />
+                currentSong && <PlayBanner song={currentSong}/>
             }
         </div>
     );

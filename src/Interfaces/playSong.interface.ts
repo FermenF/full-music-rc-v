@@ -8,4 +8,5 @@ export interface Info {
     name:      string;
     title:     string;
     image:     string;
+    artistId:  number;
 }
