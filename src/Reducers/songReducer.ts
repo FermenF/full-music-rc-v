@@ -4,7 +4,7 @@ import { Song } from "../Interfaces/song.interface";
 const dataPlayList = window.localStorage.getItem('songs');
 let playList;
 
-if(dataPlayList){
+if (dataPlayList) {
     playList = JSON.parse(dataPlayList);
 }
 export interface RootSongState {
@@ -18,6 +18,10 @@ export interface SongState {
     playlist: Song[];
     isShuffle: boolean;
     isRepeat: boolean;
+    isLoading: {
+        id: number,
+        isLoading: boolean
+    }
 }
 
 interface PlaySongAction {
@@ -44,7 +48,13 @@ interface PlayNextSongAction {
     song: PlaySong;
 }
 
-type SongAction = PlaySongAction | PauseSongAction | SetPlaylistAction | PlayPrevSongAction | PlayNextSongAction;
+interface SetLoadingStateAction {
+    type: 'SET_LOADING_STATE';
+    payload: { id: number; isLoading: boolean };
+}
+
+
+type SongAction = PlaySongAction | PauseSongAction | SetPlaylistAction | PlayPrevSongAction | PlayNextSongAction | SetLoadingStateAction;
 
 const initialState: SongState = {
     currentSong: null,
@@ -53,6 +63,10 @@ const initialState: SongState = {
     playlist: playList,
     isShuffle: false,
     isRepeat: false,
+    isLoading: {
+        id: 0,
+        isLoading: false
+    }
 };
 
 const songReducer = (state: SongState = initialState, action: SongAction): SongState => {
@@ -95,6 +109,15 @@ const songReducer = (state: SongState = initialState, action: SongAction): SongS
                 currentSong: action.song,
                 isPlaying: true,
             };
+            case 'SET_LOADING_STATE':
+                return {
+                    ...state,
+                    isLoading: {
+                        id: action.payload.id,
+                        isLoading: action.payload.isLoading
+                    },
+                };
+            
         default:
             return state;
     }

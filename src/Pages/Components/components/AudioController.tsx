@@ -1,17 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect, useSelector } from "react-redux";
-import { prevSong, nextSong } from '../../../actions/songActions';
+import { prevSong, nextSong, setLoadingState} from '../../../actions/songActions';
 import { RootSongState } from "../../../Reducers/songReducer";
 import { Song } from "../../../Interfaces/song.interface";
+import { getNextSong } from "../../../Utils/utils";
 
 interface AudioControllerProps {
     id: number;
     url: string;
     prevSong: (id:number, song:Song[] | null) => void;
     nextSong: (id:number, song:Song[] | null) => void;
+    setLoadingState: (id:number, isLoading:boolean) => void;
 }
 
-const AudioController: React.FC<AudioControllerProps> = ({ id, url, prevSong, nextSong }) => {
+const AudioController: React.FC<AudioControllerProps> = ({ id, url, prevSong, nextSong, setLoadingState}) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const currentSong = useSelector((state: RootSongState) => state.musicReducer.currentSong);
     const playList = useSelector((state: RootSongState) => state.musicReducer.playlist);
@@ -36,14 +38,28 @@ const AudioController: React.FC<AudioControllerProps> = ({ id, url, prevSong, ne
         setIsPlaying(!isPlaying);
     };
 
-    const handleNextSong = () => {
+    const handleNextSong = async () => {
+        const data = getNextSong(playList, currentSong?.info.drezzerId, 'NEXT');
+        if(data){
+            setLoadingState(data.id, true);
+        }
         audioRef.current.pause();
-        nextSong(id, playList);
+        const nextSongResult = await nextSong(id, playList);
+        if(nextSongResult === undefined && data){
+            setLoadingState(data.id, false);
+        }
     };
 
-    const handlePrevSong = () => {
+    const handlePrevSong = async () => {
+        const data = getNextSong(playList, currentSong?.info.drezzerId, 'PREV');
+        if(data){
+            setLoadingState(data.id, true);
+        }
         audioRef.current.pause();
-        prevSong(id, playList);
+        const prevSongResult = await prevSong(id, playList);
+        if(prevSongResult === undefined && data){
+            setLoadingState(data.id, false);
+        }
     };
 
     const formatTime = (time) => {
@@ -109,4 +125,4 @@ const mapStateToProps = (state) => ({
 });
 
 // @ts-ignore
-export default connect(mapStateToProps, { prevSong, nextSong })(AudioController);
+export default connect(mapStateToProps, { prevSong, nextSong, setLoadingState })(AudioController);

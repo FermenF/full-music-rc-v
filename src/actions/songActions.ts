@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { PlaySong } from "../Interfaces/playSong.interface";
 import { Song } from '../Interfaces/song.interface';
 import { changeSong} from "../Utils/utils";
@@ -10,6 +9,11 @@ export const pauseSong = () => ({ type: 'PAUSE_SONG' });
 export const setPlaylist = (playlist: Song[]) => {
     return { type: 'SET_PLAYLIST', playlist: playlist };
 };
+
+export const setLoadingState = (id:number | null, isLoading:boolean) => ({
+    type: 'SET_LOADING_STATE',
+    payload: {id, isLoading},
+});
 
 export const prevSong = (id: number, playList:Song[]) => {
     return async (dispatch) => {

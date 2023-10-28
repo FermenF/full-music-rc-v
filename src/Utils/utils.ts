@@ -6,6 +6,7 @@ import { RootSongState } from '../Reducers/songReducer';
 import { useSelector } from 'react-redux';
 import { Search } from 'react-router-dom';
 
+
 export async function getSongFromYoutube(title: string, artist: string, duration: any, image: string, id: number, artistId: number): Promise<PlaySong> {
     try {
         const response = await getListSongs(title, artist, duration);
@@ -69,36 +70,46 @@ export function getPlayList(): Song[] | Search[] | null {
     }
 }
 
-export const changeSong = async (playList: Song[] | null, id: number, direction: string) => {
+export function getNextSong(playList: Song[], id: any, direction: string) {
+    const currentSong = playList.find((song) => song.id === id);
 
-    if (playList) {
-        const currentSong = playList.find((song) => song.id === id);
-
-        if (currentSong) {
-            const currentIndex = playList.indexOf(currentSong);
-            if (currentIndex !== -1) {
-                let nextIndex;
-
-                if (direction === 'NEXT') {
-                    nextIndex = (currentIndex + 1) % playList.length;
-                } else if (direction === 'PREV') {
-                    if (currentIndex === 0) {
-                        nextIndex = playList.length - 1;
-                    } else {
-                        nextIndex = (currentIndex - 1 + playList.length) % playList.length;
-                    }
-                }
-
-                const nextSong = playList[nextIndex];
-                const song = await getSongFromYoutube(nextSong.title, nextSong.artist.name, covertDuration(nextSong.duration), nextSong.album.cover_small, nextSong.id, nextSong.artist.id);
-
-                return {
-                    type: direction + '_SONG',
-                    song
+    if (currentSong) {
+        const currentIndex = playList.indexOf(currentSong);
+        if (currentIndex !== -1) {
+            let nextIndex;
+            if (direction === 'NEXT') {
+                nextIndex = (currentIndex + 1) % playList.length;
+                
+            } else if (direction === 'PREV') {
+                if (currentIndex === 0) {
+                    nextIndex = playList.length - 1;
+                } else {
+                    nextIndex = (currentIndex - 1 + playList.length) % playList.length;
                 };
-            }
-        }
-    }
+            };
+            
+            return playList[nextIndex];
+        };
+    };
+    return null;
+};
+
+export const changeSong = async (playList: Song[] | null, id: number, direction: string) => {
+    if (playList) {
+        const nextSong = await getNextSong(playList, id, direction);
+
+        if (nextSong) {
+            const song = await getSongFromYoutube(nextSong.title,nextSong.artist.name,covertDuration(nextSong.duration),nextSong.album.cover_small,nextSong.id,nextSong.artist.id
+            );
+
+            return {
+                type: direction + '_SONG',
+                song
+            };
+        };
+    };
 
     return null;
 };
+
+
