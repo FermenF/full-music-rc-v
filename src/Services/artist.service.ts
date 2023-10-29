@@ -10,7 +10,7 @@ export const getArtist = async ( params ): Promise<{ artist:Artist, country:stri
     try {
         const id: number = params.id;
 
-        const artist = await axios.get<Artist>(`https://cors-anywhere.herokuapp.com/api.deezer.com/artist/${id}`);
+        const artist = await axios.get<Artist>(`https://api.deezer.com/artist/${id}`);
         const name = artist.data.name;
 
         const dataCountry = await getArtistCountry(name);

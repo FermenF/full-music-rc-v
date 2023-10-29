@@ -4,7 +4,7 @@ import { ArtistResponse } from '../Interfaces/artist.interface';
 
 export const getGenres = async (): Promise<GenreResponse> => {
     try {
-        return await axios.get<GenreResponse>('https://cors-anywhere.herokuapp.com/api.deezer.com/genre')
+        return await axios.get<GenreResponse>('https://api.deezer.com/genre')
             .then((response) => {
                 return response.data;
             }).catch((error) => {
@@ -18,7 +18,7 @@ export const getGenres = async (): Promise<GenreResponse> => {
 export const getArtistsByGenre = async ( params ): Promise<ArtistResponse> => {
     try {
         const id:number = params.id;
-        return await axios.get<ArtistResponse>(`https://cors-anywhere.herokuapp.com/api.deezer.com/genre/${ id }/artists`)
+        return await axios.get<ArtistResponse>(`https://api.deezer.com/genre/${ id }/artists`)
             .then((response) => {
                 return response.data;
             }).catch((error) => {
