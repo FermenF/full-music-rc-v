@@ -5,6 +5,7 @@ import { playSong } from '../actions/songActions';
 import { RootSongState } from '../Reducers/songReducer';
 import { useSelector } from 'react-redux';
 import { Search } from 'react-router-dom';
+import { Album } from '../Interfaces/album.interface';
 
 
 export async function getSongFromYoutube(title: string, artist: string, duration: any, image: string, id: number, artistId: number): Promise<PlaySong> {
@@ -112,4 +113,14 @@ export const changeSong = async (playList: Song[] | null, id: number, direction:
     return null;
 };
 
+function separateData(songsWithAlbum: Song[]): Album[] {
+    return songsWithAlbum.map(item => item.album);
+}
 
+export function getAlbumsFromSongs(songs: Song[]): Album[] {
+    const albums = separateData(songs);
+    const uniqueAlbums = albums.filter((album, index, self) =>
+        index === self.findIndex(a => a.id === album.id)
+    );
+    return uniqueAlbums;
+}

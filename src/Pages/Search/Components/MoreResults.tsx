@@ -19,12 +19,12 @@ const MoreResults: React.FC<MoreResultProps> = ({ data, playSong, setPlaylist, s
 
     const statusLoading = useSelector((state: RootSongState) => state.musicReducer.isLoading);
     const songs = data.data;
+    const playList = songs.slice(0, 5);
 
     async function playSongArtist(e, title: string, artist: string, duration: any, image: string, id: number, artistId: number) {
         setLoadingState(id, true);
         try {
             e.preventDefault();
-            const playList = songs.slice(0, 5);
             updatePlayList(playList);
             setPlaylist(playList);
             const data = await getSongFromYoutube(title, artist, duration, image, id, artistId);
@@ -36,7 +36,7 @@ const MoreResults: React.FC<MoreResultProps> = ({ data, playSong, setPlaylist, s
 
     return (
         <div className="col-span-7 lg:col-span-5 lg:col-start-3 text-white">
-            <h1 className="text-2xl text-left lg:text-left  lg:text-3xl font-bold mb-5">Songs</h1>
+            <h1 className="text-2xl text-left lg:text-left flex lg:text-3xl font-bold mb-5">Songs</h1>
             <div className="mt-3">
                 {songs ? (
                     songs.slice(1, 5).map((songData, index) => (

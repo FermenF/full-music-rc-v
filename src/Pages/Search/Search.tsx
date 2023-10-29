@@ -3,6 +3,8 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { SearchResponse } from "../../Interfaces/search.interface";
 import MoreResults from "./Components/MoreResults";
 import RelevantResult from "./Components/RelevantResult";
+import Albums from "./Components/Albums";
+import { getAlbumsFromSongs } from "../../Utils/utils";
 
 const Search = () => {
     const results = useLoaderData() as SearchResponse;
@@ -10,6 +12,9 @@ const Search = () => {
 
     const relevantSong = results.data[0];
     const songs = results;
+    const albums = getAlbumsFromSongs(songs.data);
+    console.log(songs.data);
+    
 
     function ShowMessageNotFound(){
         if(songs.total === 0){
@@ -34,6 +39,10 @@ const Search = () => {
                 {
                     songs.total > 1 && 
                         <MoreResults data={songs} />
+                }
+                {   
+                    songs.total > 1 &&
+                    <Albums albums={ albums }/>
                 }
             </div>
             <ShowMessageNotFound />

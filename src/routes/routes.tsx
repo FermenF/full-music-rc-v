@@ -11,6 +11,8 @@ import Show from "../Pages/Artist/Show";
 import { getGenres, getArtistsByGenre } from '../Services/genre.service';
 import { getArtist } from "../Services/artist.service";
 import { searchByQuery } from "../Services/search.service";
+import AlbumShow from "../Pages/Album/AlbumShow";
+import { getAlbum } from "../Services/album.service";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +37,11 @@ const router = createBrowserRouter([
                 path: "artists/:id/:name",
                 element: <Show />,
                 loader: ({ params }) => getArtist(params)
+            },
+            {
+                path: "album/:id",
+                element: <AlbumShow />,
+                loader: ({ params }) => getAlbum(params)
             },
             {
             path: "search/:query",

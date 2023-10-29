@@ -20,7 +20,6 @@ const ArtistsGrid: React.FC<ArtistsGridProps> = ({ artists }) => {
             <Masonry columnsCount={5} gutter="6px">
                 {
                     artists.map((artist: Artist, index: number) => {
-                        const randomGradient = getRandomGradient();
                         return (
                             <Link to={`/dashboard/artists/${artist.id}/${artist.name.replace('/', '|')}`} key={ index }>
                                 <div className='rounded-md relative' key={ index } style={{
@@ -32,7 +31,7 @@ const ArtistsGrid: React.FC<ArtistsGridProps> = ({ artists }) => {
                                     <div className='absolute inset-0 p-10'>
                                         <span className="text-white text-2xl font-bold">{ artist.name }</span>
                                     </div>
-                                    <div className={`absolute inset-0 bg-transparent hover:opacity-50 ${ randomGradient } hover:bg-gradient-to-bl transition duration-1000`}></div>
+                                    <div className={`absolute inset-0 bg-transparent hover:opacity-50 ${ getRandomGradient() } hover:bg-gradient-to-bl transition duration-1000`}></div>
                                 </div>
                             </Link>
                         );
