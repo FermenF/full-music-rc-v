@@ -1,16 +1,17 @@
 import axios from "axios";
 import { Artist } from "../Interfaces/artist.interface";
-import { Area, AreaResponse } from "../Interfaces/country.interface";
+import { AreaResponse } from "../Interfaces/country.interface";
 import { getSongsTopByArtist } from "./song.service";
 import { getDataAlbumsByArtist } from "./album.service";
 import { SongResponse } from "../Interfaces/song.interface";
 import { AlbumResponse } from "../Interfaces/album.interface";
+import { basePath } from "../config/api";
 
 export const getArtist = async ( params ): Promise<{ artist:Artist, country:string | undefined, area:string | undefined, songs:SongResponse, albums:AlbumResponse }> => {
     try {
         const id: number = params.id;
 
-        const artist = await axios.get<Artist>(`https://api.deezer.com/artist/${id}`);
+        const artist = await axios.get<Artist>(`${ basePath }/artist/${id}`);
         const name = artist.data.name;
 
         const dataCountry = await getArtistCountry(name);

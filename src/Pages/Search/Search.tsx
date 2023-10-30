@@ -13,8 +13,6 @@ const Search = () => {
     const relevantSong = results.data[0];
     const songs = results;
     const albums = getAlbumsFromSongs(songs.data);
-    console.log(songs.data);
-    
 
     function ShowMessageNotFound(){
         if(songs.total === 0){
