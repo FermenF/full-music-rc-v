@@ -1,4 +1,3 @@
-import { AlbumResponse } from "./album.interface";
 import { Artist } from "./artist.interface";
 import { SongResponse } from "./song.interface";
 
@@ -7,5 +6,4 @@ export interface ShowData {
     country: string | undefined;
     area: string | undefined;
     songs: SongResponse;
-    albums: AlbumResponse;
 }

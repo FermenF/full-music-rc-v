@@ -53,7 +53,7 @@ const Layout = () => {
                                 <div className="hidden md:block">
                                     <Header />
                                 </div>
-                                <div className="w-full h-full">
+                                <div className="w-full h-full overflow-hidden">
                                     <Outlet />
                                 </div>
                             </div>

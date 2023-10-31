@@ -1,32 +1,32 @@
 import axios from "axios";
-import { Artist } from "../Interfaces/artist.interface";
+import { Artist, ArtistResponse } from "../Interfaces/artist.interface";
 import { AreaResponse } from "../Interfaces/country.interface";
 import { getSongsTopByArtist } from "./song.service";
-import { getDataAlbumsByArtist } from "./album.service";
 import { SongResponse } from "../Interfaces/song.interface";
-import { AlbumResponse } from "../Interfaces/album.interface";
 import { basePath } from "../config/api";
 
-export const getArtist = async ( params ): Promise<{ artist:Artist, country:string | undefined, area:string | undefined, songs:SongResponse, albums:AlbumResponse }> => {
+export const getArtist = async ( params ): 
+    Promise<{ artist:Artist, country:string | undefined, area:string | undefined, songs:SongResponse }> => {
     try {
         const id: number = params.id;
 
+        //DZ
         const artist = await axios.get<Artist>(`${ basePath }/artist/${id}`);
         const name = artist.data.name;
 
+        // MB
         const dataCountry = await getArtistCountry(name);
-        const country = dataCountry.artists[0].country;
-        const area = dataCountry.artists[0].area.name;
-
+        const country = dataCountry.artists[0]?.country;
+        
+        const area = dataCountry.artists[0].area?.name;
+        //DZ
         const dataSongs = await getSongsTopByArtist(id);
-        const dataAlbums = await getDataAlbumsByArtist(id);
 
         return {
             artist: artist.data,
             country,
             area,
             songs: dataSongs,
-            albums: dataAlbums,
         };
     } catch (error) {
         throw error;

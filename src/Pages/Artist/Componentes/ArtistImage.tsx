@@ -11,7 +11,7 @@ interface ArtistImageProps {
 import './styles.css'
 const ArtistImage: React.FC<ArtistImageProps> = ({ country, area, image, name }) => {
     return (
-        <div className="w-full rounded-t-2xl image-artist h-52 bg-blue-500 relative" style={{
+        <div className="w-full image-artist h-52 bg-blue-500 relative" style={{
             backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0)), url('${image}')`,
             backgroundSize: 'cover',
             width: '100%',
