@@ -24,7 +24,7 @@ const PlayListCard: React.FC<PlayListCardProps> = ({ artist }) => {
         setTimeout(() => {
             fetchData();
         }, 1500);
-    }, []);
+    }, [artist]);
 
     return (
         <div className="flex overflow-x-auto overflow-y-hidden h-56">
@@ -32,7 +32,7 @@ const PlayListCard: React.FC<PlayListCardProps> = ({ artist }) => {
             playLists?.data ? (
                 playLists.data.map((playList) => (
                     <div key={playList.id} className="mr-3 mb-5 flex-shrink-0">
-                        <Link to={`/dashboard/playList/${playList.id}`} className="block">
+                        <Link to={`/dashboard/playlist/${playList.id}/tracks`} className="block">
                             <img src={playList.picture_medium} className="rounded-2xl w-full" loading="lazy" />
                         </Link>
                     </div>

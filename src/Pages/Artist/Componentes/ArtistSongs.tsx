@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { playSong, setPlaylist, setLoadingState } from '../../../actions/songActions.js';
 import { getSongFromYoutube, truncateTitle, covertDuration, updatePlayList } from '../../../Utils/utils.js';
@@ -55,6 +55,11 @@ const ArtistSongs: React.FC<ArtistSongsProps> = ({ tops, artist, playSong, setPl
         }
     };
 
+    useEffect(() => {
+        setSongs(tops.data);
+        setNextUrl(tops.next)
+    }, [artist, tops]);
+
     return (
         <div className="w-full p-5 bg-slate-950">
             <div className="text-white">
@@ -106,7 +111,16 @@ const ArtistSongs: React.FC<ArtistSongsProps> = ({ tops, artist, playSong, setPl
                     }
                 </div>
                 {nextUrl && (
-                    <button type='button' className='text-slate-400' onClick={handleLoadMoreSongs}> Ver más...</button>
+                    <div className="text-gray-300 flex justify-center lg:justify-start px-5 mt-2">
+                        <button type="button" className="flex items-center bg-gray-800 p-2 px-5 rounded-2xl hover-bg-gray-700" onClick={handleLoadMoreSongs}>
+                            <div>
+                                View More
+                            </div>
+                            <svg className="w-4 h-4 ml-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1v12m0 0 4-4m-4 4L1 9" />
+                            </svg>
+                        </button>
+                    </div>
                 )}
             </div>
         </div>

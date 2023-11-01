@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import { ShowData } from "../../Interfaces/showData.interface";
 import { SongResponse } from '../../Interfaces/song.interface';
@@ -7,7 +7,6 @@ import ArtistSongs from "./Componentes/ArtistSongs";
 import ArtistImage from "./Componentes/ArtistImage";
 import ArtistDiscography from "./Componentes/ArtistDiscography";
 import ArtistsRelated from "./Componentes/ArtistsRelated";
-import PlayListCard from "./Componentes/PlayListCard";
 
 const Show = () => {
     const data = useLoaderData() as ShowData;
@@ -33,7 +32,7 @@ const Show = () => {
                 </div>
             </div>
             <div className="col-span-7 lg:col-span-2 row-span-1 lg:block hidden">
-                <div className="bg-slate-950 p-5">
+                <div className="bg-slate-950 p-5 h-full">
                     <ArtistsRelated artist={ data.artist.id }/>
                 </div>
             </div>

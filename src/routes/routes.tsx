@@ -13,6 +13,8 @@ import { getArtist } from "../Services/artist.service";
 import { searchByQuery } from "../Services/search.service";
 import AlbumShow from "../Pages/Album/AlbumShow";
 import { getAlbum } from "../Services/album.service";
+import { getPlatListAndTracks } from "../Services/playList.service";
+import ShowPlayList from "../Pages/PlayList/ShowPlayList";
 
 const router = createBrowserRouter([
     {
@@ -44,9 +46,14 @@ const router = createBrowserRouter([
                 loader: ({ params }) => getAlbum(params)
             },
             {
-            path: "search/:query",
-            element: <Search />,
-            loader: ({ params }) => searchByQuery(params)
+                path: "search/:query",
+                element: <Search />,
+                loader: ({ params }) => searchByQuery(params)
+            },
+            {
+                path: "playlist/:id/tracks",
+                element: <ShowPlayList />,
+                loader: ({ params }) => getPlatListAndTracks(params)
             }
         ]
     }

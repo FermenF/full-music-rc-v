@@ -26,7 +26,7 @@ const ArtistsRelated: React.FC<ArtistsRelatedProps> = ({ artist }) => {
         setTimeout(() => {
             fetchData();
         }, 1000);
-    }, []);
+    }, [artist]);
 
     return (
         <div className="">
