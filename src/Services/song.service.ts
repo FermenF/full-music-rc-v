@@ -15,10 +15,24 @@ export const getSongsTopByArtist = async (id: number): Promise<SongResponse> => 
     }
 };
 
+// export const LoadMoreSongs = async (nextUrl: string): Promise<SongResponse> => {
+//     try {
+//         const url = extractDynamicPath(nextUrl);
+//         // return await axios.get<SongResponse>(`${ basePath }/load-more/${ url }`)
+//             .then((response) => {
+//                 return response.data;
+//             })
+//             .catch((error) => {
+//                 throw error;
+//             });
+//     } catch (error) {
+//         throw error;
+//     }
+// };
+
 export const LoadMoreSongs = async (nextUrl: string): Promise<SongResponse> => {
     try {
         const url = extractDynamicPath(nextUrl);
-        // return await axios.get<SongResponse>(`${ basePath }/load-more/${ url }`)
         return await axios.get<SongResponse>(`${ basePath }/${ url }`)
             .then((response) => {
                 return response.data;
@@ -31,14 +45,15 @@ export const LoadMoreSongs = async (nextUrl: string): Promise<SongResponse> => {
     }
 };
 
+// const extractDynamicPath = (url: string): string => {
+//     const baseUrlHttps = "https://api.deezer.com/";
+//     const dynamicPart = url.replace(baseUrlHttps, "");
+//     const path = dynamicPart.replace(/\//g, '__').replace(/\?/g, '--param--');
+//     return path;
+// };
+  
 const extractDynamicPath = (url: string): string => {
-    const baseUrlHttps = "https://api.deezer.com/";
     const baseUrlHttp = "http://api.deezer.com/";
-    let dynamicPart = url.replace(baseUrlHttps, "");
-    dynamicPart = url.replace(baseUrlHttp, "");
-    // const path = dynamicPart.replace(/\//g, '__').replace(/\?/g, '--param--');
-    // return path;
-    
+    const dynamicPart = url.replace(baseUrlHttp, "");
     return dynamicPart;
 };
-  

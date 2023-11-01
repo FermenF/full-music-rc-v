@@ -30,8 +30,8 @@ const Search = () => {
     };
 
     return (
-        <div className="w-full h-full bg-slate-950 mt-1 rounded-md">
-            <div className="grid grid-cols-7 grid-rows-1 p-5 gap-2 items-center">
+        <div className="w-full h-full bg-slate-950 mt-1 rounded-md overflow-hidden md:overflow-y-auto md:max-h-[90.8vh] lg:max-h-full">
+            <div className="grid grid-cols-7 grid-rows-1 p-5 gap-2 items-center ">
                 {
                     relevantSong && 
                         <RelevantResult relevantSong={relevantSong} songs={ songs }/>

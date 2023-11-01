@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { covertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
 import { playSong, setPlaylist, setLoadingState } from '../../../actions/songActions';
 import { SearchResponse } from "../../../Interfaces/search.interface";
@@ -7,6 +7,7 @@ import { PlaySong } from "../../../Interfaces/playSong.interface";
 import { RootSongState } from "../../../Reducers/songReducer";
 import { Link } from "react-router-dom";
 import { Song } from "../../../Interfaces/song.interface";
+import { getRandomGradient } from "../../../Utils/gradientColors";
 
 interface RelevantResultProps{
     relevantSong: Song,
@@ -19,6 +20,7 @@ interface RelevantResultProps{
 const RelevantResult: React.FC<RelevantResultProps> = ({ relevantSong, songs, playSong, setPlaylist, setLoadingState }) => {
 
     const statusLoading = useSelector((state:RootSongState) => state.musicReducer.isLoading);
+    const [ grandiet ] = useState(getRandomGradient());
 
     async function playSongArtist(e, title: string, artist: string, duration: any, image: string, id: number, artistId:number) {    
         setLoadingState(id, true);
@@ -38,7 +40,7 @@ const RelevantResult: React.FC<RelevantResultProps> = ({ relevantSong, songs, pl
     return (
         <div className="col-span-7 lg:col-span-2 h-full text-white">
             <h1 className="text-2xl text-center lg:text-left lg:text-3xl font-bold mb-5">Most Revelant Result</h1>
-            <div className={`${ statusLoading.id === relevantSong.id ? 'bg-gray-700' : 'bg-slate-950' } p-5 pb-7 rounded-md`}>
+            <div className={`bg-gradient-to-bl ${ grandiet } p-5 pb-7 rounded-md`}>
                 <div className="p-5 rounded-md">
                     <img src={
                         relevantSong.album.cover_medium
