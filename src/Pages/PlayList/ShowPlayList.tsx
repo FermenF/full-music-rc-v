@@ -1,22 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { PlayListResponse } from "../../Interfaces/playList.interface";
-import { colors } from "../../Utils/gradientColors";
 import TrackList from "./Components/TracksList";
+import { getRandomGradient } from "../../Utils/gradientColors";
 
 const ShowPlayList = () => {
 
+    const [ gradient ] = useState(getRandomGradient());
     const data = useLoaderData() as PlayListResponse;
     const playList = data;
 
-    const getRandomGradient = () => {
-        const randomIndex = Math.floor(Math.random() * colors.length);
-        return colors[randomIndex];
-    };
-
     return(
-        <div className="w-full h-full lg:overflow-y-scroll lg:max-h-[91.1vh]">
-            <div className={`lg:flex p-5 w-full bg-gradient-to-bl ${ getRandomGradient() }`}>
+        <div className="w-full h-full md:overflow-y-scroll md:max-h-[91.1vh]">
+            <div className={`lg:flex p-5 w-full bg-gradient-to-bl ${ gradient }`}>
                 <img src={ playList.picture_xl } alt="" className="object-cover h-62 w-full lg:h-64 lg:w-64"/>
                 <div className="text-white lg:relative w-full">
                     <div className="lg:ml-5 bottom-0 lg:absolute w-full">

@@ -31,10 +31,10 @@ const Index = () => {
         <div className="w-full h-full bg-slate-950 mt-1 rounded-md ">
             <div className="p-5 py-2">
                 <strong className="text-2xl font-bold text-white">
-                    Categoría: { genre.replace('_&_', ' / ')}
+                    Category: { genre.replace('_&_', ' / ')}
                 </strong>
             </div>
-            <div className="p-5 overflow-y-auto max-h-[85vh]" id="scrollableDiv">
+            <div className="p-5 md:overflow-y-auto md:max-h-[85vh]" id="scrollableDiv">
                 <InfiniteScroll
                     dataLength={artistGroups.length}
                     next={fetchMoreData}

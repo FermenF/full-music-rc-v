@@ -20,15 +20,17 @@ const Search = () => {
                 query = "";
             }
             return (
-                <div className="text-blue-500 text-2xl font-bold">
+                <div className="col-span-7 row-span-1">
+                    <div className="text-blue-500 text-2xl font-bold">
                     <span className="text-gray-300">Sin resultados para la búsqueda:</span> { `${ query }` }
+                    </div>
                 </div>
             );
         }
     };
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full bg-slate-950 mt-1 rounded-md">
             <div className="grid grid-cols-7 grid-rows-1 p-5 gap-2 items-center">
                 {
                     relevantSong && 
@@ -42,8 +44,8 @@ const Search = () => {
                     songs.total > 1 &&
                     <Albums albums={ albums }/>
                 }
+                <ShowMessageNotFound />
             </div>
-            <ShowMessageNotFound />
         </div>
     );
 };

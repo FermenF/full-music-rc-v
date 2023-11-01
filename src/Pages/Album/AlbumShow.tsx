@@ -7,6 +7,7 @@ import MoreAlbums from "./Components/MoreAlbums";
 import { getDataAlbumsByArtist } from "../../Services/album.service";
 
 const AlbumShow = () => {
+    
     const [moreAlbumsData, setMoreAlbumsData] = useState<AlbumResponse | null>(null);
 
     const album = useLoaderData() as Album;
@@ -28,7 +29,7 @@ const AlbumShow = () => {
     return (
         <div className="grid grid-cols-1 grid-rows-1 w-full h-full overflow-hidden">
             <div className="col-span-1 row-span-1 rounded-md">
-                <div className={`overflow-y-auto max-h-[91.2vh]`}>
+                <div className={`md:overflow-y-auto lg:max-h-[91.2vh]`}>
                     <AlbumImage album={album} />
                     <AlbumSongs songs={songs} artist={album.artist.name} />
                     {moreAlbumsData && (

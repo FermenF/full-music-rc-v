@@ -27,13 +27,13 @@ const PlayListCard: React.FC<PlayListCardProps> = ({ artist }) => {
     }, [artist]);
 
     return (
-        <div className="flex overflow-x-auto overflow-y-hidden h-56">
+        <div className="flex overflow-x-auto overflow-y-hidden h-44 md:h-48 mt-2">
         {
             playLists?.data ? (
                 playLists.data.map((playList) => (
                     <div key={playList.id} className="mr-3 mb-5 flex-shrink-0">
                         <Link to={`/dashboard/playlist/${playList.id}/tracks`} className="block">
-                            <img src={playList.picture_medium} className="rounded-2xl w-full" loading="lazy" />
+                            <img src={playList.picture_medium} className="rounded-2xl h-[10rem] md:h-44" loading="lazy" />
                         </Link>
                     </div>
                 ))

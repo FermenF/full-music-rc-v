@@ -5,7 +5,9 @@ import { basePath } from "../config/api";
 export const searchByQuery = async ( params ): Promise<SearchResponse> => {
     try {
         const query:string = params.query;
-        return await axios.get<SearchResponse>(`${ basePath }/search/${ query }`)
+        console.log(`${ basePath }/search/${ query }`);
+        
+        return await axios.get<SearchResponse>(`${ basePath }/search?q=${ query }`)
             .then((response) => {
                 return response.data;
             }).catch((error) => {

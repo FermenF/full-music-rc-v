@@ -65,7 +65,7 @@ const TrackList: React.FC<TrackListProps> = ({ tracks, playSong, setPlaylist, se
                                         </svg>
                                     </div>
                                 ) : (
-                                    <div>
+                                    <div className="w-5 flex items-center">
                                         {index + 1}
                                     </div>
                                 )}

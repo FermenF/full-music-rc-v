@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Album } from "../../../Interfaces/album.interface";
-import { colors } from "../../../Utils/gradientColors";
+import { getRandomGradient } from "../../../Utils/gradientColors";
 import { Link } from 'react-router-dom';
 
 interface AlbumImageProps{
@@ -9,6 +9,8 @@ interface AlbumImageProps{
 
 const AlbumImage: React.FC<AlbumImageProps> = ({ album }) => {
 
+    const [ gradient ] = useState(getRandomGradient());
+
     const titleSize = (title: string): string => {
         if (title.length > 15) {
             return "lg:text-6xl text-2xl";
@@ -16,13 +18,8 @@ const AlbumImage: React.FC<AlbumImageProps> = ({ album }) => {
         return "lg:text-8xl text-4xl";
     }
 
-    const getRandomGradient = () => {
-        const randomIndex = Math.floor(Math.random() * colors.length);
-        return colors[randomIndex];
-    };
-
     return (
-        <div className={`lg:flex flex-grow flex-row p-5 bg-gradient-to-bl ${getRandomGradient()}`}>
+        <div className={`lg:flex flex-grow flex-row p-5 bg-gradient-to-bl ${ gradient }`}>
             <img src={ album.cover_medium } alt="" className="shadow-2xl shadow-black" />
             <div className="lg:relative w-full">
                 <div className="lg:absolute w-full bottom-0 lg:pl-10 text-white">

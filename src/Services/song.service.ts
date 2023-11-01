@@ -18,7 +18,8 @@ export const getSongsTopByArtist = async (id: number): Promise<SongResponse> => 
 export const LoadMoreSongs = async (nextUrl: string): Promise<SongResponse> => {
     try {
         const url = extractDynamicPath(nextUrl);
-        return await axios.get<SongResponse>(`${ basePath }/load-more/${ url }`)
+        // return await axios.get<SongResponse>(`${ basePath }/load-more/${ url }`)
+        return await axios.get<SongResponse>(`${ basePath }/${ url }`)
             .then((response) => {
                 return response.data;
             })
@@ -31,9 +32,13 @@ export const LoadMoreSongs = async (nextUrl: string): Promise<SongResponse> => {
 };
 
 const extractDynamicPath = (url: string): string => {
-    const baseUrl = "https://api.deezer.com/";
-    const dynamicPart = url.replace(baseUrl, "");
-    const path = dynamicPart.replace(/\//g, '__').replace(/\?/g, '--param--');
-    return path;
+    const baseUrlHttps = "https://api.deezer.com/";
+    const baseUrlHttp = "http://api.deezer.com/";
+    let dynamicPart = url.replace(baseUrlHttps, "");
+    dynamicPart = url.replace(baseUrlHttp, "");
+    // const path = dynamicPart.replace(/\//g, '__').replace(/\?/g, '--param--');
+    // return path;
+    
+    return dynamicPart;
 };
   

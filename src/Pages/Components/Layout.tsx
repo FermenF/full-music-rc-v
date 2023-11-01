@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, ScrollRestoration } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
 import NavBarAndSearch from "./components/NavBarAndSearch";
@@ -13,7 +13,7 @@ import { RootSearchState, activateSearch, deactivateSearch } from "../../Reducer
 
 const Layout = () => {
 
-    const [ query, setQuery ] = useState("");
+    const [query, setQuery] = useState("");
 
     const currentSong = useSelector((state: RootSongState) => state.musicReducer.currentSong);
     const search = useSelector((state: RootSearchState) => state.searchReducer);
@@ -41,13 +41,22 @@ const Layout = () => {
 
     return (
         <div>
+            <ScrollRestoration />
             {
                 !search ? (
                     <div className="flex flex-col min-h-screen overflow-hidden bg-gray-800 p-1">
                         <div className="grid grid-cols-1 md:flex-grow md:grid-cols-12 md:grid-rows-2 md:gap-1">
                             <div className="overflow-hidden rounded-md md:row-span-2 md:col-span-4 lg:col-span-3 xl:col-span-2">
-                                <NavBarAndSearch />
-                                <Library />
+                                <div className="hidden md:block">
+                                    <NavBarAndSearch />
+                                </div>
+                                {/* Mobile */}
+                                <div className="md:hidden fixed top-0 right-0 left-0 z-50">
+                                    <NavBarAndSearch />
+                                </div>
+                                <div className="mt-[4.60rem] md:mt-0 h-full">
+                                    <Library />
+                                </div>
                             </div>
                             <div className="overflow-hidden md:flex-grow w-full h-full md:col-span-8 lg:col-span-9 row-span-2 xl:col-span-10 rounded-md">
                                 <div className="hidden md:block">
@@ -67,14 +76,14 @@ const Layout = () => {
                             </svg>
                         </button>
                         <input type="text" className='p-2 h-20 bg-transparent text-2xl md:text-4xl w-72 md:w-5/12 inputStyle' placeholder='Search Song, Artist, Album...'
-                        value={query}
-                        onChange={e => setQuery(e.target.value)}
-                        onKeyDown={handleKeyPress} />
+                            value={query}
+                            onChange={e => setQuery(e.target.value)}
+                            onKeyDown={handleKeyPress} />
                     </div>
                 )
             }
             {
-                currentSong && <PlayBanner song={currentSong}/>
+                currentSong && <PlayBanner song={currentSong} />
             }
         </div>
     );

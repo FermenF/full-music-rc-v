@@ -69,3 +69,8 @@ export const colors:string[] = [
     'from-violet-700 to-emerald-400',
     'from-gray-700 to-gray-400'
 ];
+
+export const getRandomGradient = () => {
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
+};

@@ -94,7 +94,7 @@ const ArtistSongs: React.FC<ArtistSongsProps> = ({ tops, artist, playSong, setPl
                                                         </svg>
                                                     </div>
                                                 ) : (
-                                                    <div>
+                                                    <div className="w-5 flex items-center">
                                                         {index + 1}
                                                     </div>
                                                 )

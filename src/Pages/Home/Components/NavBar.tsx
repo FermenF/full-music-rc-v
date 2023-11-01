@@ -15,8 +15,7 @@ const Navbar = () => {
         <nav className="bg-white">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="#" className="flex items-center">
-                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap">Flowbite</span>
+                    <img src='/images/logo.png' className='h-12'/>
                 </a>
                 <button data-collapse-toggle="navbar-multi-level" type="button" onClick={ handleResponsiveNav }
                  className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-multi-level" aria-expanded="false">

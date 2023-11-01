@@ -15,7 +15,7 @@ const Show = () => {
     return (
         <div className="grid grid-cols-1 mt-1 md:grid-cols-7 grid-rows-1">
             <div className="col-span-7 lg:col-span-5 row-span-1 rounded-md">
-                <div className="md:h-full md:w-full overflow-y-auto max-h-[90.8vh]">
+                <div className="md:h-full md:w-full md:overflow-y-auto md:max-h-[90.8vh]">
                     <ArtistImage 
                         country={ data.country } area={ data.area }
                         image= { data.artist.picture_xl } name={ data.artist.name }

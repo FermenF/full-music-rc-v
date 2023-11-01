@@ -31,8 +31,8 @@ const ArtistsRelated: React.FC<ArtistsRelatedProps> = ({ artist }) => {
     return (
         <div className="">
             <div className="flex items-center justify-between text-white">
-                <h1 className="text-2xl font-bold">You might be interested</h1>
-                <button className="bg-green-500 md:block hidden font-bold p-2 rounded hover:bg-green-700">View More</button>
+                <h1 className="text-2xl font-bold text-center md:text-left">You might be interested</h1>
+                <button className="bg-green-500 md:block hidden font-bold p-2 rounded-2xl hover:bg-green-700 text-white">View More</button>
             </div>
             <div className="flex flex-col justify-between h-full md:mt-1 lg:mt-1 md:mb-0 mb-2">
                 <div className="md:flex lg:flex-col">
@@ -60,8 +60,12 @@ const ArtistsRelated: React.FC<ArtistsRelatedProps> = ({ artist }) => {
                         )
                     }
                 </div>
-                <div className="h-60 mt-0.5">
-                    <h1 className="text-white text-1xl font-bold">Recomended PlayLists</h1>
+                <div className="md:hidden block text-center my-1">
+                    <button className="bg-green-500 m-3 font-bold p-2 px-4 rounded-3xl hover:bg-green-700 text-white">View More</button>
+                    <hr />
+                </div>
+                <div className="mt-0.5">
+                    <h1 className="text-white text-2xl font-bold text-center md:text-left">Recomended PlayLists</h1>
                     <PlayListCard artist={ artist }/>
                 </div>
             </div>

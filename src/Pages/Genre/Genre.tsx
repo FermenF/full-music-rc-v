@@ -12,8 +12,8 @@ const Genre = () => {
             <div className="p-5 py-2">
                 <strong className="text-2xl font-bolf text-white">Categories</strong>
             </div>
-            <div className="p-5 overflow-y-auto max-h-[85vh]">
-                <div className="grid grid-cols-2 gap-2 lg:grid-cols-7 lg:gap-3 mt-5 md:mt-0">
+            <div className="px-5 md:overflow-y-auto md:max-h-[85vh]">
+                <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-8 lg:gap-3 mt-5 md:mt-0 justify-center">
                     {
                         data.map((genre, i) => (
                             <GenreCard genre={genre} key={ i } />
