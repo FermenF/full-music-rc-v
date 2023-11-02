@@ -1,5 +1,5 @@
 import React from "react";
-import { covertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
+import { convertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
 import { SearchResponse } from "../../../Interfaces/search.interface";
 import { playSong, setPlaylist, setLoadingState } from "../../../actions/songActions";
 import { PlaySong } from "../../../Interfaces/playSong.interface";
@@ -45,7 +45,7 @@ const MoreResults: React.FC<MoreResultProps> = ({ data, playSong, setPlaylist, s
                                 event,
                                 songData.title,
                                 songData.artist.name,
-                                covertDuration(songData.duration),
+                                convertDuration(songData.duration),
                                 songData.album.cover_small,
                                 songData.id,
                                 songData.artist.id
@@ -87,7 +87,7 @@ const MoreResults: React.FC<MoreResultProps> = ({ data, playSong, setPlaylist, s
                                     </div>
                                 </div>
                             </div>
-                            <div className="md:p-3 md:mx-3 text-gray-300">{covertDuration(songData.duration)}</div>
+                            <div className="md:p-3 md:mx-3 text-gray-300">{convertDuration(songData.duration)}</div>
                         </div>
                     ))
                 ) : (

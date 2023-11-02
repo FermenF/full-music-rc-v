@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { playSong, setPlaylist, setLoadingState } from '../../../actions/songActions.js';
-import { getSongFromYoutube, truncateTitle, covertDuration, updatePlayList } from '../../../Utils/utils.js';
+import { getSongFromYoutube, truncateTitle, convertDuration, updatePlayList } from '../../../Utils/utils.js';
 import { Song, SongResponse } from '../../../Interfaces/song.interface.js';
 import { PlaySong } from '../../../Interfaces/playSong.interface.js';
 import { LoadMoreSongs } from '../../../Services/song.service.js';
@@ -72,7 +72,7 @@ const ArtistSongs: React.FC<ArtistSongsProps> = ({ tops, artist, playSong, setPl
                                     event,
                                     top.title,
                                     artist,
-                                    covertDuration(top.duration),
+                                    convertDuration(top.duration),
                                     top.album.cover_small,
                                     top.id,
                                     top.artist.id
@@ -104,7 +104,7 @@ const ArtistSongs: React.FC<ArtistSongsProps> = ({ tops, artist, playSong, setPl
                                         <div className="ml-3 font-bold md-hidden">{truncateTitle(top.title, 29)}</div>
                                         <div className="ml-3 font-bold hidden sm-block">{top.title}</div>
                                     </div>
-                                    <div className="md-p-3 md-mx-3 text-gray-300">{covertDuration(top.duration)}</div>
+                                    <div className="md-p-3 md-mx-3 text-gray-300">{convertDuration(top.duration)}</div>
                                 </div>
                             ))
                         )

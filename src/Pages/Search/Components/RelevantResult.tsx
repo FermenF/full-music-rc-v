@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { covertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
+import { convertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
 import { playSong, setPlaylist, setLoadingState } from '../../../actions/songActions';
 import { SearchResponse } from "../../../Interfaces/search.interface";
 import { connect, useSelector } from "react-redux";
@@ -59,14 +59,14 @@ const RelevantResult: React.FC<RelevantResultProps> = ({ relevantSong, songs, pl
                             </span>
                         </div>
                         <div className="flex items-center justify-center">
-                            <span className="mr-2">{ covertDuration(relevantSong.duration) }</span>
+                            <span className="mr-2">{ convertDuration(relevantSong.duration) }</span>
                             <button type="button" className="bg-green-500 p-3 py-2.5 rounded-full text-center hover:bg-gray-400"
                                 onClick={
                                     (event) => playSongArtist(
                                         event,
                                         relevantSong.title,
                                         relevantSong.artist.name,
-                                        covertDuration(relevantSong.duration),
+                                        convertDuration(relevantSong.duration),
                                         relevantSong.album.cover_small,
                                         relevantSong.id,
                                         relevantSong.artist.id

@@ -47,11 +47,13 @@ export function truncateTitle(text: string, maxLength: number): string {
     return text;
 };
 
-export function covertDuration(duration: number): string {
+export function convertDuration(duration: number): string {
     const min = Math.floor(duration / 60);
-    const seg = duration % 60;
-    return `${min}:${seg}`;
-};
+    const seg = Math.floor(duration % 60);
+    const formattedSeg = seg.toString().padStart(2, '0');
+    return `${min}:${formattedSeg}`;
+}
+
 
 export function updatePlayList(songs: any): void {
     window.localStorage.setItem('songs', JSON.stringify(songs));
@@ -100,7 +102,7 @@ export const changeSong = async (playList: Song[] | null, id: number, direction:
         const nextSong = await getNextSong(playList, id, direction);
 
         if (nextSong) {
-            const song = await getSongFromYoutube(nextSong.title,nextSong.artist.name,covertDuration(nextSong.duration),nextSong.album.cover_small,nextSong.id,nextSong.artist.id
+            const song = await getSongFromYoutube(nextSong.title,nextSong.artist.name,convertDuration(nextSong.duration),nextSong.album.cover_small,nextSong.id,nextSong.artist.id
             );
 
             return {

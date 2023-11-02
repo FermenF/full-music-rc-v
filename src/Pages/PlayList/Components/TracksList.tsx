@@ -3,7 +3,7 @@ import { Tracks } from "../../../Interfaces/playList.interface";
 import { connect, useSelector } from "react-redux";
 import { RootSongState } from "../../../Reducers/songReducer";
 import { playSong, setLoadingState, setPlaylist } from "../../../actions/songActions";
-import { covertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
+import { convertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
 import { PlaySong } from "../../../Interfaces/playSong.interface";
 import { Song } from "../../../Interfaces/song.interface";
 
@@ -49,7 +49,7 @@ const TrackList: React.FC<TrackListProps> = ({ tracks, playSong, setPlaylist, se
             <div className="mt-2 p-5">
                 {songs && songs.slice(0, visibleSongs).map((song, index) => (
                     <div key={index + 1} onClick={(event) => playSongArtist(
-                        event, song.title, song.artist.name, covertDuration(song.duration), song.album.cover_small, song.id, song.artist.id)}
+                        event, song.title, song.artist.name, convertDuration(song.duration), song.album.cover_small, song.id, song.artist.id)}
                         className={`hover-bg-gray-500 lg:px-5 p-3 flex items-center lg:py-0 py-4 justify-between cursor-pointer rounded-md text-white ${statusLoading.id === song.id && 'bg-gray-800'}`}>
                         <div className="md:p-3 flex items-center">
                             <div className="md:ml-3 mr-1 md:mr-5 text-gray-300">
@@ -77,7 +77,7 @@ const TrackList: React.FC<TrackListProps> = ({ tracks, playSong, setPlaylist, se
                                 <div className="ml-3">{song.artist.name}</div>
                             </div>
                         </div>
-                        <div className="md:p-3 md-mx-3 text-gray-300">{covertDuration(song.duration)}</div>
+                        <div className="md:p-3 md-mx-3 text-gray-300">{convertDuration(song.duration)}</div>
                     </div>
                 ))}
                 {visibleSongs < songs.length && (

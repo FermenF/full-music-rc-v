@@ -41,7 +41,6 @@ function compareDurations(songs: SongYoutube[], durationDeezer: number): SongYou
         const durationSongInSeconds = parseDurationToSeconds(duration_raw);
         const durationDeezerInSeconds = parseDurationToSeconds(durationDeezer);
         if (Math.abs(durationSongInSeconds - durationDeezerInSeconds) <= timeDifference) {
-            console.log("por duracion");
             return song;
         }
     }
@@ -85,8 +84,6 @@ function calculateSimilarTitle(songs: SongYoutube[], title2: string): SongYoutub
         const set2 = proccessTitle(title2);
         const similitary = jaccardSimilarity(set1, set2);
         if (similitary >= 0.8) {
-            console.log(similitary);
-            console.log(set1, set2);
             return song;
         }
     }

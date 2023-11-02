@@ -3,7 +3,7 @@ import { Song } from "../../../Interfaces/song.interface";
 import { connect, useSelector } from "react-redux";
 import { RootSongState } from "../../../Reducers/songReducer";
 import { playSong, setPlaylist, setLoadingState } from '../../../actions/songActions';
-import { covertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
+import { convertDuration, getSongFromYoutube, truncateTitle, updatePlayList } from "../../../Utils/utils";
 import { PlaySong } from "../../../Interfaces/playSong.interface";
 
 interface AlbumSongs {
@@ -49,7 +49,7 @@ const AlbumSongs = ({ songs, artist, playSong, setPlaylist, setLoadingState }) =
             <div className="mt-3">
                 {
                     songs && (songs.map((song, index) => (
-                        <div key={ index + 1 } onClick={ (event) => playSongArtist(event, song.title, artist, covertDuration(song.duration), song.album.cover_small, song.id, song.artist.id)}
+                        <div key={ index + 1 } onClick={ (event) => playSongArtist(event, song.title, artist, convertDuration(song.duration), song.album.cover_small, song.id, song.artist.id)}
                             className={`hover-bg-gray-500 pr-3 flex p-2 items-center justify-between cursor-pointer rounded-md ${statusLoading.id === song.id && 'bg-gray-700' } ` }>
                             <div className="md:p-3 flex items-center">
                                 <div className="mr-1 md:mr-5 text-gray-300">
@@ -89,7 +89,7 @@ const AlbumSongs = ({ songs, artist, playSong, setPlaylist, setLoadingState }) =
                             </div>
                             <div className="md-p-3 md-mx-3 text-gray-300">
                                 {
-                                    covertDuration(song.duration)
+                                    convertDuration(song.duration)
                                 }</div>
                         </div>
                     )))

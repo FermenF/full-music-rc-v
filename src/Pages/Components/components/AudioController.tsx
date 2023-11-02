@@ -17,6 +17,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ id, url, prevSong, ne
     const [isPlaying, setIsPlaying] = useState(false);
     const currentSong = useSelector((state: RootSongState) => state.musicReducer.currentSong);
     const playList = useSelector((state: RootSongState) => state.musicReducer.playlist);
+    const [currentTime, setCurrentTime] = useState(0);
 
     const audioRef = useRef(new Audio(url));
 
@@ -28,6 +29,24 @@ const AudioController: React.FC<AudioControllerProps> = ({ id, url, prevSong, ne
             }
         }
     }, [currentSong]);
+
+    useEffect(() => {
+        
+        audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
+        return () => {
+            audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+        };
+    }, []);
+
+    const handleTimeUpdate = () => {
+        console.log("contador");
+
+        setCurrentTime(audioRef.current.currentTime);
+        if(audioRef.current.currentTime === audioRef.current.duration){
+            const nextSong = document.getElementById("button-next-song");
+            nextSong?.click();
+        }
+    };
 
     const handlePlayPause = () => {
         if (isPlaying) {
@@ -95,7 +114,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ id, url, prevSong, ne
                         </svg>
                     )}
                 </button>
-                <button type="button" className="mx-1 rounded-full p-2 bg-black hover-bg-slate-500" onClick={handleNextSong}>
+                <button type="button" id="button-next-song" className="mx-1 rounded-full p-2 bg-black hover-bg-slate-500" onClick={handleNextSong}>
                     <svg className="w-4 h-4 text-white pl-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                     </svg>
@@ -107,15 +126,28 @@ const AudioController: React.FC<AudioControllerProps> = ({ id, url, prevSong, ne
                 </button>
             </div>
             <div className="flex items-center">
-                <small className="mx-1 text-gray-600 font-extralight text-sm"></small>
+                <small className="mx-1 text-gray-600 font-extralight text-sm">
+                    {formatTime(audioRef.current.currentTime)}
+                </small>
                 <input
                     type="range"
                     className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-900"
-                    min={0}
+                    min={ 0 }
+                    max={ isNaN(audioRef.current.duration) ? 100 : audioRef.current.duration }
                     step={0.1}
-                    onChange={(e) => (audioRef.current.currentTime = parseFloat(e.target.value))}
+                    value={ currentTime }
+                    onChange={ (e) => (audioRef.current.currentTime = parseFloat(e.target.value)) }
                 />
-                <small className="mx-1 text-gray-600 font-extralight text-sm"></small>
+                <small className="mx-1 text-gray-600 font-extralight text-sm">
+                    {
+                        audioRef.current.duration ?
+                        formatTime(audioRef.current.duration) : (
+                            <small>
+                                {`>`}
+                            </small>
+                        )
+                    }
+                </small>
             </div>
         </div>
     );
